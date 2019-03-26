@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2352072486824041536}
   - component: {fileID: 2352072486824041538}
   - component: {fileID: 2352072486824041537}
+  - component: {fileID: 214679948894864277}
   m_Layer: 5
   m_Name: WordPrefab
   m_TagString: Untagged
@@ -77,6 +78,22 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &214679948894864277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2352072486824041551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8b9a7ff0373f04a90c9f5f5962392c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wordText: {fileID: 2352072487317311861}
+  showButton: {fileID: 2352072488424837430}
+  editButton: {fileID: 2352072487935759097}
+  deleteButton: {fileID: 2352072488336332857}
 --- !u!1 &2352072487305481846
 GameObject:
   m_ObjectHideFlags: 0
