@@ -25,6 +25,32 @@ public static class EnglishDictionaryManager
         SaveData(englishDictionary);
     }
 
+    public static void UpdateWord(string word, string definition)
+    {
+        englishDictionary.words
+            [
+                englishDictionary.words.
+                IndexOf(
+                        englishDictionary.words.Find
+                        (w => w.word.Equals(word))
+                       )
+            ].definition = definition;
+        SaveData(englishDictionary);
+    }
+
+    public static void DeleteWord(string word)
+    {
+        englishDictionary.words.RemoveAt
+            (
+                englishDictionary.words.
+                IndexOf(
+                        englishDictionary.words.Find
+                        (w => w.word.Equals(word))
+                       )
+            );
+        SaveData(englishDictionary);
+    }
+
     private static EnglishDictionary LoadData()
     {
         string filePath = Application.dataPath + projectFilePath;
