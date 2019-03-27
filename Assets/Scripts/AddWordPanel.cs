@@ -19,11 +19,13 @@ public class AddWordPanel : MonoBehaviour
         if (!UIDataManager.wordsDict.ContainsKey(word))
         {
             UIDataManager.wordsDict.Add(word, definition);
-            EnglishDictionaryManager.AddWord(word, definition);
+            EnglishDictionaryManager.UpdateDictionary(UIDataManager.wordsDict);
         }
         else
         {
             print("this word exist");
         }
+        wordInputField.text = "";
+        definitionInputField.text = "";
     }
 }

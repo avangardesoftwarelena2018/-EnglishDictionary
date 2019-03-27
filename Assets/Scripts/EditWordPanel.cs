@@ -17,6 +17,6 @@ public class EditWordPanel : MonoBehaviour
         string word = wordText.text;
         string definition = definitionInputField.text;
         UIDataManager.wordsDict[word] = definition;
-        EnglishDictionaryManager.UpdateWord(word, definition);
+        EnglishDictionaryManager.UpdateDictionary(UIDataManager.wordsDict);
     }
 }

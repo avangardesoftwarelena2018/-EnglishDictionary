@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class UIDataManager : MonoBehaviour
     private GameObject showWordDefinitionPanel = null;
     [SerializeField]
     private GameObject editWordDefinitionPanel = null;
+    [SerializeField]
+    private GameObject sortedWordsText = null;
     private List<GameObject> gameObjectList = new List<GameObject>();
     private string searchedWord = "";
 
@@ -54,12 +57,9 @@ public class UIDataManager : MonoBehaviour
 
     private void FindWord(string word)
     {
+        ClearContent();
         if (wordsDict.ContainsKey(word))
         {
-            foreach (var item in gameObjectList)
-            {
-                Destroy(item);
-            }
             if (wordsDict.TryGetValue(word, out string value))
             {
                 GameObject wordItem = Instantiate(prefab, content);
@@ -71,6 +71,7 @@ public class UIDataManager : MonoBehaviour
 
     public void ClearContent()
     {
+        sortedWordsText.SetActive(false);
         foreach (var item in gameObjectList)
         {
             Destroy(item);
@@ -100,7 +101,32 @@ public class UIDataManager : MonoBehaviour
     private void DeleteWord(string word)
     {
         wordsDict.Remove(word);
-        EnglishDictionaryManager.DeleteWord(word);
+        EnglishDictionaryManager.UpdateDictionary(wordsDict);
+        //EnglishDictionaryManager.DeleteWord(word);
         ClearContent();
+    }
+
+    public void ShowAZ()
+    {
+        ClearContent();
+        string sortedDictionary = "";
+        foreach (var item in wordsDict.OrderBy(key => key.Key))
+        {
+            sortedDictionary += "\n" + item.Key;
+        }
+        sortedWordsText.SetActive(true);
+        sortedWordsText.GetComponent<Text>().text = sortedDictionary;
+    }
+
+    public void ShowZA()
+    {
+        ClearContent();
+        string sortedDictionary = "";
+        foreach (var item in wordsDict.OrderByDescending(key => key.Key))
+        {
+            sortedDictionary += "\n" + item.Key;
+        }
+        sortedWordsText.SetActive(true);
+        sortedWordsText.GetComponent<Text>().text = sortedDictionary;
     }
 }

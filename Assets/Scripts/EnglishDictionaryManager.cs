@@ -14,43 +14,20 @@ public static class EnglishDictionaryManager
         get => LoadData();
     }
 
-    public static void AddWord(string word, string definition)
+    public static void UpdateDictionary(Dictionary<string, string> words)
     {
-        Word newWord = new Word
+        englishDictionary.words = new List<Word>();
+        foreach (var item in words)
         {
-            word = word,
-            definition = definition
-        };
-        englishDictionary.words.Add(newWord);
+            englishDictionary.words.Add(new Word
+            {
+                word = item.Key,
+                definition = item.Value
+            });
+        }
         SaveData(englishDictionary);
     }
-
-    public static void UpdateWord(string word, string definition)
-    {
-        englishDictionary.words
-            [
-                englishDictionary.words.
-                IndexOf(
-                        englishDictionary.words.Find
-                        (w => w.word.Equals(word))
-                       )
-            ].definition = definition;
-        SaveData(englishDictionary);
-    }
-
-    public static void DeleteWord(string word)
-    {
-        englishDictionary.words.RemoveAt
-            (
-                englishDictionary.words.
-                IndexOf(
-                        englishDictionary.words.Find
-                        (w => w.word.Equals(word))
-                       )
-            );
-        SaveData(englishDictionary);
-    }
-
+    
     private static EnglishDictionary LoadData()
     {
         string filePath = Application.dataPath + projectFilePath;
