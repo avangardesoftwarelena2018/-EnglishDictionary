@@ -146,6 +146,12 @@ public class UIDataManager : MonoBehaviour
     {
         wordsDict.Remove(word);
         EnglishDictionaryManager.UpdateDictionary(wordsDict);
-        ClearContent();
+        foreach (var item in gameObjectList)
+        {
+            if (item.GetComponentInChildren<Text>().text == word)
+            {
+                Destroy(item);
+            }
+        }
     }
 }
