@@ -83,7 +83,7 @@ public class UIDataManager : MonoBehaviour
                 gameObjectList.Add(wordItem);
             }
         }
-        else
+        else if (!string.IsNullOrEmpty(word))
         {
             addWordDefinitionPanel.SetActive(true);
             addWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<InputField>().text = word;
@@ -94,13 +94,9 @@ public class UIDataManager : MonoBehaviour
     private void ShowAutocomplete(string inputText)
     {
         ClearContent();
-        string inputStartsWith = inputText.Length >= 2
-                                ? inputText.Substring(0, inputText.Length)
-                                : null;
-
-        if (!string.IsNullOrEmpty(inputText) && !string.IsNullOrEmpty(inputStartsWith))
+        if (!string.IsNullOrEmpty(inputText))
         {
-            var dict = wordsDict.Where(w => w.Key.StartsWith(inputStartsWith));
+            var dict = wordsDict.Where(w => w.Key.StartsWith(inputText));
             foreach (var item in dict)
             {
                 if (wordsDict.TryGetValue(item.Key, out string value))
@@ -148,7 +144,7 @@ public class UIDataManager : MonoBehaviour
         EnglishDictionaryManager.UpdateDictionary(wordsDict);
         foreach (var item in gameObjectList)
         {
-            if (item.GetComponentInChildren<Text>().text == word)
+            if (item != null && item.GetComponentInChildren<Text>().text == word)
             {
                 Destroy(item);
             }
