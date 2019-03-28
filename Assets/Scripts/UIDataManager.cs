@@ -83,16 +83,22 @@ public class UIDataManager : MonoBehaviour
                 gameObjectList.Add(wordItem);
             }
         }
+        else
+        {
+            addWordDefinitionPanel.SetActive(true);
+            addWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<InputField>().text = word;
+            addWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<InputField>().interactable = false;
+        }
     }
 
     private void ShowAutocomplete(string inputText)
     {
         ClearContent();
-        string inputStartsWith = inputText.Length >= 3
-                                ? inputText.Substring(0, 3)
-                                : inputText;
+        string inputStartsWith = inputText.Length >= 2
+                                ? inputText.Substring(0, inputText.Length)
+                                : null;
 
-        if (!string.IsNullOrEmpty(inputText))
+        if (!string.IsNullOrEmpty(inputText) && !string.IsNullOrEmpty(inputStartsWith))
         {
             var dict = wordsDict.Where(w => w.Key.StartsWith(inputStartsWith));
             foreach (var item in dict)

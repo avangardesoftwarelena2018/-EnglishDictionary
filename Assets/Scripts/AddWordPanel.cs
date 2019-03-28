@@ -14,6 +14,7 @@ public class AddWordPanel : MonoBehaviour
 
     public void Save()
     {
+        wordInputField.interactable = true;
         string word = wordInputField.text;
         string definition = definitionInputField.text;
         if (!UIDataManager.wordsDict.ContainsKey(word))
@@ -25,6 +26,13 @@ public class AddWordPanel : MonoBehaviour
         {
             print("this word exist");
         }
+        wordInputField.text = "";
+        definitionInputField.text = "";
+    }
+
+    public void Cancel()
+    {
+        wordInputField.interactable = true;
         wordInputField.text = "";
         definitionInputField.text = "";
     }
