@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class AddWordPanel : MonoBehaviour
@@ -12,6 +10,7 @@ public class AddWordPanel : MonoBehaviour
     [SerializeField]
     private InputField definitionInputField = null;
 
+    //Save added Word on buttonPress
     public void Save()
     {
         wordInputField.interactable = true;
@@ -30,6 +29,7 @@ public class AddWordPanel : MonoBehaviour
         definitionInputField.text = "";
     }
 
+    //Clear and reset UI fields on buttonPress
     public void Cancel()
     {
         wordInputField.interactable = true;

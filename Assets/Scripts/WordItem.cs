@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +13,8 @@ public class WordItem : MonoBehaviour
     [SerializeField]
     private Button deleteButton = null;
 
-    public void Intantiate(string word, string definition, Action<string> showCallback, Action<string> editCallback, Action<string> deleteCallback)
+    //Instantiate WordItem Prefab
+    public void Instantiate(string word, string definition, Action<string> showCallback, Action<string> editCallback, Action<string> deleteCallback)
     {
         wordText.text = word;
         showButton.onClick.AddListener(() => showCallback(word));

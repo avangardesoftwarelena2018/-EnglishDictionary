@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,8 +23,10 @@ public class UIDataManager : MonoBehaviour
     private List<GameObject> gameObjectList = new List<GameObject>();
     private string searchedWord = "";
     
+
     void Start()
     {
+        //Update dictionary with data from file
         foreach (var item in EnglishDictionaryManager.EnglishDictionary.words)
         {
             if (!wordsDict.ContainsKey(item.word))
@@ -33,20 +34,23 @@ public class UIDataManager : MonoBehaviour
                 wordsDict.Add(item.word, item.definition);
             }
         }
-        inputField.onValueChanged.AddListener(ShowAutocomplete);
+        inputField.onValueChanged.AddListener(ShowAutocompleteItems);
     }
     
+    //Search Word on button press
     public void SearchButton()
     {
         searchedWord = inputField.text;
         FindWord(searchedWord);
     }
 
+    //Open panel for adding new word on button press
     public void AddWordButton()
     {
         addWordDefinitionPanel.SetActive(true);
     }
 
+    //Sort and show  words ascendent on button press
     public void ShowAZ()
     {
         ClearContent();
@@ -59,6 +63,7 @@ public class UIDataManager : MonoBehaviour
         sortedWordsText.GetComponent<Text>().text = sortedDictionary;
     }
 
+    //Sort and show  words descendent on button press
     public void ShowZA()
     {
         ClearContent();
@@ -71,6 +76,7 @@ public class UIDataManager : MonoBehaviour
         sortedWordsText.GetComponent<Text>().text = sortedDictionary;
     }
 
+    //Find word in dictionary or opens panel to add inexistent word from dictionary
     private void FindWord(string word)
     {
         ClearContent();
@@ -79,7 +85,7 @@ public class UIDataManager : MonoBehaviour
             if (wordsDict.TryGetValue(word, out string value))
             {
                 GameObject wordItem = Instantiate(prefab, content);
-                wordItem.GetComponent<WordItem>().Intantiate(word, value, ShowWord, EditWord, DeleteWord);
+                wordItem.GetComponent<WordItem>().Instantiate(word, value, ShowWord, EditWord, DeleteWord);
                 gameObjectList.Add(wordItem);
             }
         }
@@ -91,7 +97,8 @@ public class UIDataManager : MonoBehaviour
         }
     }
 
-    private void ShowAutocomplete(string inputText)
+    //Show Autocomplete Items with words that starts with text wrote by user
+    private void ShowAutocompleteItems(string inputText)
     {
         ClearContent();
         if (!string.IsNullOrEmpty(inputText))
@@ -102,13 +109,14 @@ public class UIDataManager : MonoBehaviour
                 if (wordsDict.TryGetValue(item.Key, out string value))
                 {
                     GameObject wordItem = Instantiate(prefab, content);
-                    wordItem.GetComponent<WordItem>().Intantiate(item.Key, value, ShowWord, EditWord, DeleteWord);
+                    wordItem.GetComponent<WordItem>().Instantiate(item.Key, value, ShowWord, EditWord, DeleteWord);
                     gameObjectList.Add(wordItem);
                 }
             }
         }
     }
     
+    //Remove all items from UI
     private void ClearContent()
     {
         sortedWordsText.SetActive(false);
@@ -118,6 +126,7 @@ public class UIDataManager : MonoBehaviour
         }
     }
 
+    //Show Word on button press opens panel for showing word and definition
     private void ShowWord(string word)
     {
         showWordDefinitionPanel.SetActive(true);
@@ -128,6 +137,7 @@ public class UIDataManager : MonoBehaviour
         }
     }
 
+    //Edit Word on button press opens panel for editing word and definition
     private void EditWord(string word)
     {
         editWordDefinitionPanel.SetActive(true);
@@ -138,6 +148,7 @@ public class UIDataManager : MonoBehaviour
         }
     }
 
+    //Delete Word removes word from dictionary and updates UI without removed item
     private void DeleteWord(string word)
     {
         wordsDict.Remove(word);

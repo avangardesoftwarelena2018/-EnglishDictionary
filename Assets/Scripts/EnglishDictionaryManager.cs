@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public static class EnglishDictionaryManager
     {
         get => LoadData();
     }
-
+    //Update and Save modified Data in files
     public static void UpdateDictionary(Dictionary<string, string> words)
     {
         englishDictionary.words = new List<Word>();
@@ -27,7 +26,8 @@ public static class EnglishDictionaryManager
         }
         SaveData(englishDictionary);
     }
-    
+
+    //LoadData from json file
     private static EnglishDictionary LoadData()
     {
         string filePath = Application.dataPath + projectFilePath;
@@ -43,6 +43,7 @@ public static class EnglishDictionaryManager
         return englishDictionary;
     }
 
+    //SaveData in json file
     private static void SaveData(EnglishDictionary englishDictionary)
     {
         string filePath = Application.dataPath + projectFilePath;

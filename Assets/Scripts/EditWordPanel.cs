@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class EditWordPanel : MonoBehaviour
@@ -12,6 +10,7 @@ public class EditWordPanel : MonoBehaviour
     [SerializeField]
     private InputField definitionInputField = null;
 
+    //Save edited Word on buttonPress
     public void Save()
     {
         string word = wordText.text;
