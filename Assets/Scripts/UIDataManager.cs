@@ -23,8 +23,7 @@ public class UIDataManager : MonoBehaviour
     private GameObject sortedWordsText = null;
     private List<GameObject> gameObjectList = new List<GameObject>();
     private string searchedWord = "";
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         foreach (var item in EnglishDictionaryManager.EnglishDictionary.words)
@@ -34,10 +33,9 @@ public class UIDataManager : MonoBehaviour
                 wordsDict.Add(item.word, item.definition);
             }
         }
-
-        inputField.onEndEdit.AddListener(delegate { Search(inputField);});
+        inputField.onValueChanged.AddListener(ShowAutocomplete);
     }
-
+    
     public void SearchButton()
     {
         searchedWord = inputField.text;
@@ -49,10 +47,28 @@ public class UIDataManager : MonoBehaviour
         addWordDefinitionPanel.SetActive(true);
     }
 
-    private void Search(InputField inputField)
+    public void ShowAZ()
     {
-        searchedWord = inputField.text;
-        FindWord(searchedWord);
+        ClearContent();
+        string sortedDictionary = "";
+        foreach (var item in wordsDict.OrderBy(key => key.Key))
+        {
+            sortedDictionary += "\n" + item.Key;
+        }
+        sortedWordsText.SetActive(true);
+        sortedWordsText.GetComponent<Text>().text = sortedDictionary;
+    }
+
+    public void ShowZA()
+    {
+        ClearContent();
+        string sortedDictionary = "";
+        foreach (var item in wordsDict.OrderByDescending(key => key.Key))
+        {
+            sortedDictionary += "\n" + item.Key;
+        }
+        sortedWordsText.SetActive(true);
+        sortedWordsText.GetComponent<Text>().text = sortedDictionary;
     }
 
     private void FindWord(string word)
@@ -69,7 +85,29 @@ public class UIDataManager : MonoBehaviour
         }
     }
 
-    public void ClearContent()
+    private void ShowAutocomplete(string inputText)
+    {
+        ClearContent();
+        string inputStartsWith = inputText.Length >= 3
+                                ? inputText.Substring(0, 3)
+                                : inputText;
+
+        if (!string.IsNullOrEmpty(inputText))
+        {
+            var dict = wordsDict.Where(w => w.Key.StartsWith(inputStartsWith));
+            foreach (var item in dict)
+            {
+                if (wordsDict.TryGetValue(item.Key, out string value))
+                {
+                    GameObject wordItem = Instantiate(prefab, content);
+                    wordItem.GetComponent<WordItem>().Intantiate(item.Key, value, ShowWord, EditWord, DeleteWord);
+                    gameObjectList.Add(wordItem);
+                }
+            }
+        }
+    }
+    
+    private void ClearContent()
     {
         sortedWordsText.SetActive(false);
         foreach (var item in gameObjectList)
@@ -102,31 +140,6 @@ public class UIDataManager : MonoBehaviour
     {
         wordsDict.Remove(word);
         EnglishDictionaryManager.UpdateDictionary(wordsDict);
-        //EnglishDictionaryManager.DeleteWord(word);
         ClearContent();
-    }
-
-    public void ShowAZ()
-    {
-        ClearContent();
-        string sortedDictionary = "";
-        foreach (var item in wordsDict.OrderBy(key => key.Key))
-        {
-            sortedDictionary += "\n" + item.Key;
-        }
-        sortedWordsText.SetActive(true);
-        sortedWordsText.GetComponent<Text>().text = sortedDictionary;
-    }
-
-    public void ShowZA()
-    {
-        ClearContent();
-        string sortedDictionary = "";
-        foreach (var item in wordsDict.OrderByDescending(key => key.Key))
-        {
-            sortedDictionary += "\n" + item.Key;
-        }
-        sortedWordsText.SetActive(true);
-        sortedWordsText.GetComponent<Text>().text = sortedDictionary;
     }
 }
