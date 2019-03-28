@@ -82,18 +82,24 @@ public class UIDataManager : MonoBehaviour
         ClearContent();
         if (wordsDict.ContainsKey(word))
         {
-            if (wordsDict.TryGetValue(word, out string value))
-            {
-                GameObject wordItem = Instantiate(prefab, content);
-                wordItem.GetComponent<WordItem>().Instantiate(word, value, ShowWord, EditWord, DeleteWord);
-                gameObjectList.Add(wordItem);
-            }
+            CreateWordItem(word);
         }
         else if (!string.IsNullOrEmpty(word))
         {
             addWordDefinitionPanel.SetActive(true);
-            addWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<InputField>().text = word;
-            addWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<InputField>().interactable = false;
+            addWordDefinitionPanel.GetComponent<AddWordPanel>().Word = word;
+            addWordDefinitionPanel.GetComponent<AddWordPanel>().SetWordInputFieldInteractable(false);
+        }
+    }
+
+    //Instantiate word item and intitialize with values
+    private void CreateWordItem(string word)
+    {
+        if (wordsDict.TryGetValue(word, out string value))
+        {
+            GameObject wordItem = Instantiate(prefab, content);
+            wordItem.GetComponent<WordItem>().Initialize(word, value, ShowWord, EditWord, DeleteWord);
+            gameObjectList.Add(wordItem);
         }
     }
 
@@ -106,12 +112,7 @@ public class UIDataManager : MonoBehaviour
             var dict = wordsDict.Where(w => w.Key.StartsWith(inputText));
             foreach (var item in dict)
             {
-                if (wordsDict.TryGetValue(item.Key, out string value))
-                {
-                    GameObject wordItem = Instantiate(prefab, content);
-                    wordItem.GetComponent<WordItem>().Instantiate(item.Key, value, ShowWord, EditWord, DeleteWord);
-                    gameObjectList.Add(wordItem);
-                }
+                CreateWordItem(item.Key);
             }
         }
     }
@@ -130,10 +131,10 @@ public class UIDataManager : MonoBehaviour
     private void ShowWord(string word)
     {
         showWordDefinitionPanel.SetActive(true);
-        if (wordsDict.TryGetValue(word, out string value))
+        if (wordsDict.TryGetValue(word, out string definition))
         {
-            showWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<Text>().text = word;
-            showWordDefinitionPanel.transform.GetChild(1).GetComponentInChildren<Text>().text = value;
+            showWordDefinitionPanel.GetComponent<ShowWordPanel>().Word = word;
+            showWordDefinitionPanel.GetComponent<ShowWordPanel>().Definition = definition;
         }
     }
 
@@ -141,10 +142,10 @@ public class UIDataManager : MonoBehaviour
     private void EditWord(string word)
     {
         editWordDefinitionPanel.SetActive(true);
-        if (wordsDict.TryGetValue(word, out string value))
+        if (wordsDict.TryGetValue(word, out string definition))
         {
-            editWordDefinitionPanel.transform.GetChild(0).GetComponentInChildren<Text>().text = word;
-            editWordDefinitionPanel.transform.GetChild(1).GetComponentInChildren<InputField>().text = value;
+            editWordDefinitionPanel.GetComponent<EditWordPanel>().Word = word;
+            editWordDefinitionPanel.GetComponent<EditWordPanel>().Definition = definition;
         }
     }
 

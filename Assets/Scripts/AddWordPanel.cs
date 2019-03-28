@@ -10,6 +10,27 @@ public class AddWordPanel : MonoBehaviour
     [SerializeField]
     private InputField definitionInputField = null;
 
+    public string Word
+    {
+        set
+        {
+            wordInputField.text = value;
+        }
+    }
+
+    public string Definition
+    {
+        set
+        {
+            definitionInputField.text = value;
+        }
+    }
+
+    public void SetWordInputFieldInteractable(bool state)
+    {
+        wordInputField.interactable = state;
+    }
+
     //Save added Word on buttonPress
     public void Save()
     {

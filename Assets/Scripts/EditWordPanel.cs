@@ -10,6 +10,22 @@ public class EditWordPanel : MonoBehaviour
     [SerializeField]
     private InputField definitionInputField = null;
 
+    public string Word
+    {
+        set
+        {
+            wordText.text = value;
+        }
+    }
+
+    public string Definition
+    {
+        set
+        {
+            definitionInputField.text = value;
+        }
+    }
+
     //Save edited Word on buttonPress
     public void Save()
     {

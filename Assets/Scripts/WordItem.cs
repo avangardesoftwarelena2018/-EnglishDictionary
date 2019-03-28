@@ -14,7 +14,7 @@ public class WordItem : MonoBehaviour
     private Button deleteButton = null;
 
     //Instantiate WordItem Prefab
-    public void Instantiate(string word, string definition, Action<string> showCallback, Action<string> editCallback, Action<string> deleteCallback)
+    public void Initialize(string word, string definition, Action<string> showCallback, Action<string> editCallback, Action<string> deleteCallback)
     {
         wordText.text = word;
         showButton.onClick.AddListener(() => showCallback(word));
